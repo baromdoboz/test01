@@ -21,8 +21,8 @@ prompts = [
 def get_random_sentence():
     prompt = random.choice(prompts)
 
-    # Use the updated OpenAI API method: chat_completions.create() for v1.0.0+
-    response = openai.chat_completions.create(
+    # Use the correct method for OpenAI API (ChatCompletion)
+    response = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",  # Use the desired model, e.g., "gpt-3.5-turbo"
         messages=[{"role": "user", "content": prompt}],
         max_tokens=50
