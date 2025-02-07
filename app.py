@@ -32,7 +32,7 @@ def chat():
         response = client.chat.completions.create(
             model="gpt-4o-mini",  # Replace with the actual model name
             messages=[
-                {"role": "system", "content": "Egy gonosz, vulgáris plüssmackó vagy, aki max 10 szóban válaszol."},
+                {"role": "system", "content": "You are a helpful assistant."},
                 {"role": "user", "content": user_input}
             ],
             max_tokens=50  # Limit the response to 50 tokens
@@ -54,18 +54,20 @@ def test():
         if not user_input:
             return render_template("test.html", error="Please enter a message.")
 
-        # Call the /chat endpoint internally
-        response = app.test_client().post(
-            '/chat',
-            json={"message": user_input}
-        )
-
-        if response.status_code == 200:
-            bot_response = response.get_json().get("response")
+        # Call the OpenAI API directly (no need for test_client)
+        try:
+            response = client.chat.completions.create(
+                model="gpt-4o-mini",
+                messages=[
+                    {"role": "system", "content": "You are a helpful assistant."},
+                    {"role": "user", "content": user_input}
+                ],
+                max_tokens=50
+            )
+            bot_response = response.choices[0].message.content.strip()
             return render_template("test.html", user_input=user_input, bot_response=bot_response)
-        else:
-            error = response.get_json().get("error", "An unknown error occurred.")
-            return render_template("test.html", error=error)
+        except Exception as e:
+            return render_template("test.html", error=str(e))
 
     # Render the test page for GET requests
     return render_template("test.html")
