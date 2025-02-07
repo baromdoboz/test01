@@ -1,35 +1,30 @@
-import openai
-import random
+# app.py
 from flask import Flask, jsonify
+import openai
 import os
 
 app = Flask(__name__)
 
-# Assign your OpenAI API key directly in the code (or use environment variable directly)
-openai.api_key = os.getenv("OPENAI_API_KEY")  # Read the API key from environment variable
+# Load OpenAI API key from environment variables
+openai.api_key = os.getenv("OPENAI_API_KEY")
 
-# Example prompt list
-prompts = [
-    "Tell me a fun fact about space.",
-    "Write a short motivational quote.",
-    "Give me a random philosophical thought.",
-    "Describe a futuristic city in one sentence.",
-    "Say something funny about technology."
-]
+@app.route('/')
+def home():
+    return "Welcome to the Random Message Generator!"
 
-@app.route('/random-sentence', methods=['GET'])
-def get_random_sentence():
-    prompt = random.choice(prompts)
-
-    # Use the correct method for OpenAI API (ChatCompletion)
-    response = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo",  # Use the desired model, e.g., "gpt-3.5-turbo"
-        messages=[{"role": "user", "content": prompt}],
-        max_tokens=50
-    )
-    
-    ai_sentence = response['choices'][0]['message']['content'].strip()
-    return jsonify({"sentence": ai_sentence})
+@app.route('/generate-message')
+def generate_message():
+    try:
+        # Generate a random message using OpenAI's GPT-3
+        response = openai.Completion.create(
+            engine="text-davinci-003",  # Use the GPT-3.5 model
+            prompt="Generate a random inspirational message:",
+            max_tokens=50
+        )
+        message = response.choices[0].text.strip()
+        return jsonify({"message": message})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    app.run(debug=True)
