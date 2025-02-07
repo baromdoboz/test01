@@ -4,6 +4,4 @@ services:
     runtime: python
     buildCommand: pip install -r requirements.txt
     startCommand: gunicorn app:app
-    envVars:
-      - key: OPENAI_API_KEY
-        value: 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
+    
