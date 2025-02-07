@@ -45,7 +45,7 @@ def chat():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-@app.route('/test', methods=['GET', 'POST'])
+@app.route('/aibear', methods=['GET', 'POST'])
 def test():
     if request.method == 'POST':
         # Get the user input from the form
