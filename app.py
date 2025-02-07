@@ -35,5 +35,33 @@ def generate_message():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
+@app.route('/chat', methods=['POST'])
+def chat():
+    try:
+        # Extract user input from the POST request
+        data = request.json
+        user_input = data.get("message")
+
+        if not user_input:
+            return jsonify({"error": "Missing message. Please provide a 'message' field in the request."}), 400
+
+        # Call the OpenAI API with the user input
+        response = client.chat.completions.create(
+            model="gpt-4o-mini",  # Replace with the actual model name
+            messages=[
+                #{"role": "system", "content": "You are a helpful assistant."},
+                {"role": "user", "content": user_input}
+            ],
+            max_tokens=50  # Limit the response to 50 tokens
+        )
+
+        # Extract and return the bot's response
+        bot_response = response.choices[0].message.content.strip()
+        return jsonify({"response": bot_response})
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
 if __name__ == '__main__':
     app.run(debug=True)
