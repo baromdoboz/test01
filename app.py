@@ -21,14 +21,14 @@ prompts = [
 def get_random_sentence():
     prompt = random.choice(prompts)
 
-    # Use the new Completion API instead of ChatCompletion
-    response = openai.Completion.create(
-        model="text-davinci-003",  # Change to the appropriate model, e.g., "text-davinci-003"
-        prompt=prompt,
+    # Use the updated OpenAI API method: chat_completions.create() for v1.0.0+
+    response = openai.chat_completions.create(
+        model="gpt-3.5-turbo",  # Use the desired model, e.g., "gpt-3.5-turbo"
+        messages=[{"role": "user", "content": prompt}],
         max_tokens=50
     )
     
-    ai_sentence = response.choices[0].text.strip()
+    ai_sentence = response['choices'][0]['message']['content'].strip()
     return jsonify({"sentence": ai_sentence})
 
 if __name__ == '__main__':
