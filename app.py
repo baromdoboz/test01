@@ -1,4 +1,4 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 from openai import OpenAI  # Import the new OpenAI client
 import os
 from dotenv import load_dotenv
