@@ -23,7 +23,7 @@ def generate_message():
     try:
         # Generate a random message using OpenAI's GPT-3.5 Turbo
         response = client.chat.completions.create(
-            model="gpt-3.5-turbo",  # Use the GPT-3.5 Turbo model
+            model="gpt-4o",  # Use the GPT-3.5 Turbo model
             messages=[
                 {"role": "system", "content": "You are a helpful assistant."},
                 {"role": "user", "content": "Generate a random inspirational message:"}
