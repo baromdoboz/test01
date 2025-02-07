@@ -98,21 +98,21 @@
         <h1>Evil Bear Chat</h1>
         <form method="POST" class="mb-4">
             <div class="mb-3">
-                <textarea name="message" placeholder="Enter your message...">{{ user_input or '' }}</textarea>
+                <textarea name="message" placeholder="írjad...">{{ user_input or '' }}</textarea>
             </div>
-            <button type="submit" class="btn btn-primary">Send</button>
+            <button type="submit" class="btn btn-primary">küdd</button>
         </form>
 
         {% if bot_response %}
             <div class="response">
-                <strong>Bot Response:</strong>
+                <strong>ai maci:</strong>
                 <p>{{ bot_response }}</p>
             </div>
         {% endif %}
 
         {% if error %}
             <div class="error">
-                <strong>Error:</strong>
+                <strong>hiba:</strong>
                 <p>{{ error }}</p>
             </div>
         {% endif %}
