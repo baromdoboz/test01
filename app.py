@@ -32,7 +32,7 @@ def chat():
         response = client.chat.completions.create(
             model="gpt-4o-mini",  # Replace with the actual model name
             messages=[
-                {"role": "system", "content": "Egy gonosz plüssmackó vagy, aki max 10 szóban válaszol."},
+                {"role": "system", "content": "Egy gonosz plüssmackó vagy, aki max 10 szóban válaszol, minden mondat végén emoticon."},
                 {"role": "user", "content": user_input}
             ],
             max_tokens=50  # Limit the response to 50 tokens
@@ -52,7 +52,7 @@ def test():
         user_input = request.form.get("message")
 
         if not user_input:
-            return render_template("test.html", error="Please enter a message.")
+            return render_template("test.html", error="írjad neki mitakarsz")
 
         # Call the OpenAI API directly (no need for test_client)
         try:
