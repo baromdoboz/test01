@@ -26,7 +26,7 @@ def generate_message():
             model="gpt-4o-mini",  # Use the GPT-3.5 Turbo model
             messages=[
                 {"role": "system", "content": "Te egy segítőkész asszisztens vagy."},
-                {"role": "user", "content": "Mondj valami szépet!"}
+                {"role": "user", "content": "Mondj valami szépet, maximum öt szóban! Ékezetek nélkül válaszolj!"}
             ],
             max_tokens=50
         )
