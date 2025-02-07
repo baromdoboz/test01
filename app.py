@@ -1,5 +1,5 @@
-from flask import Flask, jsonify, request
-from openai import OpenAI  # Import the new OpenAI client
+from flask import Flask, jsonify, request, render_template
+from openai import OpenAI
 import os
 from dotenv import load_dotenv
 
@@ -16,24 +16,7 @@ if not os.getenv("OPENAI_API_KEY"):
 
 @app.route('/')
 def home():
-    return "éjáj"
-
-@app.route('/generate-message')
-def generate_message():
-    try:
-        # Generate a random message using OpenAI's GPT-3.5 Turbo
-        response = client.chat.completions.create(
-            model="gpt-4o-mini",  # Use the GPT-3.5 Turbo model
-            messages=[
-                #{"role": "system", "content": "Te egy segítőkész asszisztens vagy."},
-                {"role": "user", "content": "Mondj valami vicceset max 10 szóban!"}
-            ],
-            max_tokens=50
-        )
-        message = response.choices[0].message.content.strip()
-        return jsonify({"message": message})
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
+    return "Welcome to the GPT-4o Mini Chat API!"
 
 @app.route('/chat', methods=['POST'])
 def chat():
@@ -49,7 +32,7 @@ def chat():
         response = client.chat.completions.create(
             model="gpt-4o-mini",  # Replace with the actual model name
             messages=[
-                {"role": "system", "content": "Egy gonosz plüssmackó vagy, aki max 10 szóban válaszol."},
+                {"role": "system", "content": "Egy gonosz, vulgáris plüssmackó vagy, aki max 10 szóban válaszol."},
                 {"role": "user", "content": user_input}
             ],
             max_tokens=50  # Limit the response to 50 tokens
@@ -62,6 +45,30 @@ def chat():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
+@app.route('/test', methods=['GET', 'POST'])
+def test():
+    if request.method == 'POST':
+        # Get the user input from the form
+        user_input = request.form.get("message")
+
+        if not user_input:
+            return render_template("test.html", error="Please enter a message.")
+
+        # Call the /chat endpoint internally
+        response = app.test_client().post(
+            '/chat',
+            json={"message": user_input}
+        )
+
+        if response.status_code == 200:
+            bot_response = response.get_json().get("response")
+            return render_template("test.html", user_input=user_input, bot_response=bot_response)
+        else:
+            error = response.get_json().get("error", "An unknown error occurred.")
+            return render_template("test.html", error=error)
+
+    # Render the test page for GET requests
+    return render_template("test.html")
 
 if __name__ == '__main__':
     app.run(debug=True)
