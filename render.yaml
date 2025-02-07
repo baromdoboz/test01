@@ -6,4 +6,4 @@ services:
     startCommand: gunicorn app:app
     envVars:
       - key: OPENAI_API_KEY
-        value: your_openai_api_key_here
+        value: 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
