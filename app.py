@@ -1,16 +1,12 @@
 import openai
 import random
-import os
 from flask import Flask, jsonify
-from dotenv import load_dotenv
-
-# Load environment variables from .env file
-load_dotenv()
+import os
 
 app = Flask(__name__)
 
-# Get API key from environment variable
-openai.api_key = os.getenv("OPENAI_API_KEY")
+# Assign your OpenAI API key directly in the code (or use environment variable directly)
+openai.api_key = os.getenv("OPENAI_API_KEY")  # Read the API key from environment variable
 
 # Example prompt list
 prompts = [
@@ -25,12 +21,14 @@ prompts = [
 def get_random_sentence():
     prompt = random.choice(prompts)
 
-    response = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo",
-        messages=[{"role": "user", "content": prompt}]
+    # Use the new Completion API instead of ChatCompletion
+    response = openai.Completion.create(
+        model="text-davinci-003",  # Change to the appropriate model, e.g., "text-davinci-003"
+        prompt=prompt,
+        max_tokens=50
     )
     
-    ai_sentence = response["choices"][0]["message"]["content"].strip()
+    ai_sentence = response.choices[0].text.strip()
     return jsonify({"sentence": ai_sentence})
 
 if __name__ == '__main__':
