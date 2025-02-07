@@ -25,8 +25,8 @@ def generate_message():
         response = client.chat.completions.create(
             model="gpt-4o-mini",  # Use the GPT-3.5 Turbo model
             messages=[
-                {"role": "system", "content": "You are a helpful assistant."},
-                {"role": "user", "content": "Generate a random inspirational message:"}
+                {"role": "system", "content": "Te egy segítőkész asszisztens vagy."},
+                {"role": "user", "content": "Mondj valami szépet!"}
             ],
             max_tokens=50
         )
