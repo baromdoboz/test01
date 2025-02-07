@@ -16,7 +16,7 @@ if not os.getenv("OPENAI_API_KEY"):
 
 @app.route('/')
 def home():
-    return "Welcome to the Random Message Generator!"
+    return "éjáj"
 
 @app.route('/generate-message')
 def generate_message():
