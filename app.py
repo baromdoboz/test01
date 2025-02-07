@@ -35,5 +35,26 @@ def generate_message():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
+def get_remaining_tokens():
+    try:
+        # Fetch usage details
+        usage = client.usage.retrieve()
+
+        # Example quota limit (replace with your actual quota)
+        quota_limit = 10000  # Adjust based on your plan
+
+        # Calculate remaining tokens
+        tokens_used = usage.total_tokens
+        tokens_remaining = quota_limit - tokens_used
+
+        return tokens_remaining
+    except Exception as e:
+        return f"Error fetching usage: {e}"
+
+@app.route('/remaining-tokens')
+def remaining_tokens():
+    tokens_remaining = get_remaining_tokens()
+    return jsonify({"tokens_remaining": tokens_remaining})
+
 if __name__ == '__main__':
     app.run(debug=True)
