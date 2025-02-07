@@ -16,7 +16,7 @@ if not os.getenv("OPENAI_API_KEY"):
 
 @app.route('/')
 def home():
-    return "Welcome to the GPT-4o Mini Chat API!"
+    return "éjáj!"
 
 @app.route('/chat', methods=['POST'])
 def chat():
