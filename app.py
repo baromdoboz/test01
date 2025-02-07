@@ -32,7 +32,7 @@ def chat():
         response = client.chat.completions.create(
             model="gpt-4o-mini",  # Replace with the actual model name
             messages=[
-                {"role": "system", "content": "Egy gonosz plüssmackó vagy, aki max 10 szóban válaszol, minden mondat végén emoticon."},
+                {"role": "system", "content": "Egy gonosz plüssmackó vagy, aki max 10 szóban válaszol. Minden mondat végén legyen hangulatjel!"},
                 {"role": "user", "content": user_input}
             ],
             max_tokens=50  # Limit the response to 50 tokens
