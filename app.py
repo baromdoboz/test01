@@ -18,6 +18,10 @@ if not os.getenv("OPENAI_API_KEY"):
 def home():
     return "éjáj!"
 
+@app.route('/test2')
+def test2():
+    return os.getenv("TEMPLATE_NAME")
+
 @app.route('/chat', methods=['POST'])
 def chat():
     try:
