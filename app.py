@@ -51,8 +51,9 @@ def test():
         # Get the user input from the form
         user_input = request.form.get("message")
 
+        html = "test2.html"
         if not user_input:
-            return render_template("test.html", error="írjad neki mitakarsz")
+            return render_template(html, error="írjad neki mitakarsz")
 
         # Call the OpenAI API directly (no need for test_client)
         try:
@@ -65,12 +66,12 @@ def test():
                 max_tokens=50
             )
             bot_response = response.choices[0].message.content.strip()
-            return render_template("test.html", user_input=user_input, bot_response=bot_response)
+            return render_template(html, user_input=user_input, bot_response=bot_response)
         except Exception as e:
-            return render_template("test.html", error=str(e))
+            return render_template(html, error=str(e))
 
     # Render the test page for GET requests
-    return render_template("test.html")
+    return render_template(html)
 
 if __name__ == '__main__':
     app.run(debug=True)
