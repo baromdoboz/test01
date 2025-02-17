@@ -2,6 +2,7 @@ from flask import Flask, jsonify, request, render_template
 from openai import OpenAI
 import os
 from dotenv import load_dotenv
+import requests
 
 # Load environment variables from .env file
 load_dotenv()
@@ -17,6 +18,13 @@ if not os.getenv("OPENAI_API_KEY"):
 @app.route('/')
 def home():
     return "éjáj!"
+
+
+@app.route('/public-ip')
+def get_public_ip():
+    public_ip = requests.get('https://api64.ipify.org?format=text').text
+    return f"Publikus IP-cím: {public_ip}"
+
 
 @app.route('/test2')
 def test2():
